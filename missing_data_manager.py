@@ -73,8 +73,10 @@ else:
                 print("\nProcessing ...\n")
 
                 imputer = SimpleImputer(missing_values=numpy.nan, strategy=strategy)
-                missing_value_columns = [missing_data[2] for missing_data in missing_values if len(missing_data) == 4 and
-                                         type(dataset[missing_data[2]][0]) == int or type(dataset[missing_data[2]][0]) == float]
+
+                missing_value_columns = [missing_data[2] for missing_data in missing_values if len(missing_data) == 4]
+                missing_value_columns = [missing_value for missing_value in missing_value_columns
+                                         if type(dataset[missing_value][0]) == int or type(dataset[missing_value][0]) == float]
 
                 dataset = pandas.DataFrame(dataset)
                 dataset[missing_value_columns] = imputer.fit_transform(dataset[missing_value_columns])
