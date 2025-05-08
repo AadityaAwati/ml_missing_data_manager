@@ -13,14 +13,17 @@ dataset_name = dataset_path.split("/")[-1] if "/" in dataset_path else dataset_p
 print("\nProcessing ...\n")
 
 missing_values = []
+unnamed_columns = [column_name for column_name in dataset if "Unnamed" in column_name]
+
 dataset_keys = list(dataset.keys())
 
 print("Missing Values :-\n")
 
 for column in dataset:
-    if not isinstance(column, (str, int, bool)) and numpy.isnan(column):
-        missing_values.append((f"Column Name - No.", dataset_keys.index(numpy.nan)))
-        dataset_keys.remove(numpy.nan)
+    if "Unnamed" in column:
+        missing_values.append((f"Column Name - No.", dataset_keys.index(unnamed_columns[0])))
+        dataset_keys.pop(0)
+
         print(missing_values[-1][0], missing_values[-1][1])
 
     for key in dataset[column]:
